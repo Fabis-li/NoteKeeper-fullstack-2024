@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.github",
+    "\\.github\\workflows"
   ],
-  "SelectedNode": "\\NoteKeeper.sln",
+  "SelectedNode": "\\.github\\workflows\\main_note-keeper-apii.yml",
   "PreviewInSolutionExplorer": false
 }

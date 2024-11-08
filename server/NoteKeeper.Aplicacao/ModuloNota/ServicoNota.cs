@@ -58,4 +58,21 @@ public class ServicoNota
 
         return Result.Ok(nota);
     }
+
+    public async Task<Result<List<Nota>>> Filtrar(Func<Nota, bool> predicate)
+    {
+        var notas = await _repositorioNota.Filtrar(predicate);
+
+        return Result.Ok(notas);
+    }
+
+
+    public Result<Nota> AlterarStatus(Nota nota)
+    {
+        nota.Arquivada = !nota.Arquivada;
+
+        _repositorioNota.Editar(nota);
+
+        return Result.Ok(nota);
+    }
 }

@@ -8,6 +8,7 @@
 
     public class VisualizarNotaViewModel
     {
+        public required Guid Id;
         public required string Titulo { get; set; }
         public required string Conteudo { get; set; }
         public required bool Arquivada { get; set; }

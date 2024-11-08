@@ -1,0 +1,39 @@
+<main class="container my-4">
+  <div class="row justify-content-center g-3 mt-2">
+    <div class="col-md-10 col-xxl-6">
+      <h1 class="fs-2">Edição de Categoria</h1>
+
+      <hr />
+
+      <form [formGroup]="categoriaForm" (submit)="editar()">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Título da Categoria</mat-label>
+          <input formControlName="titulo" matInput placeholder="Ex: Lazer" />
+          <mat-icon matSuffix color="primary">subtitles</mat-icon>
+          <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['required']"
+            >O título é obrigatório!</mat-error
+          >
+          <mat-error *ngIf="titulo?.invalid && (titulo?.errors)!['minlength']"
+            >O título precisa conter ao menos 3 caracteres!</mat-error
+          >
+        </mat-form-field>
+
+        <div class="row justify-content-end g-2 gap-2 mt-5">
+          <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
+            <mat-icon matIconPrefix>check</mat-icon>
+            Confirmar
+          </button>
+          <a
+            mat-stroked-button
+            type="button"
+            class="col-sm-4 col-md-3"
+            routerLink="/categorias"
+          >
+            <mat-icon matIconPrefix>keyboard_return</mat-icon>
+            Voltar
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

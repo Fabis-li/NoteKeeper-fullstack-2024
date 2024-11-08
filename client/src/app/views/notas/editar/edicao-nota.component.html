@@ -1,0 +1,100 @@
+<main class="container my-4">
+  <div
+    *ngIf="categorias$ | async as categorias"
+    class="row justify-content-center g-3 mt-2"
+  >
+    <div class="col col-lg-8 col-xxl-6">
+      <h1 class="fs-2">Edição de Nota</h1>
+
+      <hr />
+
+      <form [formGroup]="notaForm" (submit)="editar()">
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Título</mat-label>
+          <input
+            formControlName="titulo"
+            matInput
+            placeholder="Ex: Lavar o cachorro"
+          />
+          <mat-icon matSuffix color="primary">title</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Conteúdo</mat-label>
+          <textarea
+            formControlName="conteudo"
+            matInput
+            placeholder="Ex: Lavar o cachorro"
+          ></textarea>
+          <mat-icon matSuffix color="primary">subtitles</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="categoriaId">
+            <mat-option
+              *ngFor="let categoria of categorias"
+              [value]="categoria.id"
+              >{{ categoria.titulo }}</mat-option
+            >
+          </mat-select>
+          <mat-icon matSuffix color="primary">bookmark</mat-icon>
+        </mat-form-field>
+
+        <div class="row justify-content-end g-2 mt-2">
+          <mat-card
+            class="col mat-mdc-elevation-specific mat-elevation-z3 h-100"
+          >
+            <mat-card-header class="d-flex justify-content-between">
+              <mat-card-title
+                [ngSwitch]="campoNaoFoiTocado('titulo')"
+                class="titulo-card"
+              >
+                <span *ngSwitchCase="true">Esta é a sua nota</span>
+                <span *ngSwitchCase="false">{{
+                  notaForm.get("titulo")?.value
+                }}</span>
+              </mat-card-title>
+
+              <div [ngSwitch]="campoNaoFoiTocado('categoriaId')">
+                <span *ngSwitchCase="true">Categoria</span>
+                <span *ngSwitchCase="false">{{
+                  mapearTituloDaCategoria(
+                    notaForm.get("categoriaId")?.value,
+                    categorias
+                  )
+                }}</span>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content
+              [ngSwitch]="campoNaoFoiTocado('conteudo')"
+              class="mt-4"
+            >
+              <p *ngSwitchCase="true">
+                Preencha os campos para ver como ela ficará.
+              </p>
+              <p *ngSwitchCase="false">{{ notaForm.get("conteudo")?.value }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="row justify-content-end g-2 gap-2 mt-5">
+          <button type="submit" mat-flat-button class="col-sm-4 col-md-3">
+            <mat-icon matIconPrefix>check</mat-icon>
+            Confirmar
+          </button>
+          <a
+            mat-stroked-button
+            type="button"
+            class="col-sm-4 col-md-3"
+            routerLink="/notas"
+          >
+            <mat-icon matIconPrefix>keyboard_return</mat-icon>
+            Voltar
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

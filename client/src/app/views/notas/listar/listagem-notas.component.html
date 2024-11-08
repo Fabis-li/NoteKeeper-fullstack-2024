@@ -1,0 +1,79 @@
+<main class="container my-4">
+  <h1 class="fs-2">Listagem de Notas</h1>
+
+  <section aria-label="Opções" class="row justify-content-start g-1 gap-2">
+    <a
+      mat-flat-button
+      class="col-lg-4 col-xxl-2 fs-6 py-4"
+      [routerLink]="['/notas', 'cadastrar']"
+    >
+      <mat-icon>bookmark_add</mat-icon>
+      Cadastrar
+    </a>
+
+    <a
+      mat-stroked-button
+      class="col-lg-4 col-xxl-2 fs-6 py-4 text-nowrap"
+      [routerLink]="['/notas', 'listar', 'arquivadas']"
+    >
+      <mat-icon>archive</mat-icon>
+      Notas Arquivadas
+    </a>
+  </section>
+
+  <hr />
+
+  <div *ngIf="categorias$ | async as categorias" class="row mt-2">
+    <app-filtro-categorias
+      [categorias]="categorias"
+      (filtroAcionado)="filtrar($event)"
+    ></app-filtro-categorias>
+  </div>
+
+  <div *ngIf="notas$ | async as itens" class="row g-3 mt-2">
+    <div *ngFor="let item of itens" class="col-md-6 col-lg-4">
+      <mat-card
+        class="card-animado mat-mdc-elevation-specific mat-elevation-z3 h-100"
+      >
+        <mat-card-header class="d-flex justify-content-between">
+          <mat-card-title class="titulo-card">{{ item.titulo }}</mat-card-title>
+
+          <span>{{ item.categoria?.titulo }}</span>
+        </mat-card-header>
+
+        <mat-card-content class="mt-4">
+          <p>{{ item.conteudo }}</p>
+        </mat-card-content>
+
+        <mat-card-footer class="d-flex justify-content-end gap-1 p-3 mt-auto">
+          <a
+            mat-icon-button
+            class="botao-editar"
+            matTooltip="Editar {{ item.titulo }}"
+            [routerLink]="['/notas', 'editar', item.id]"
+          >
+            <mat-icon>edit</mat-icon>
+          </a>
+
+          <a
+            mat-icon-button
+            class="botao-excluir"
+            matTooltip="Excluir {{ item.titulo }}"
+            [routerLink]="['/notas', 'excluir', item.id]"
+          >
+            <mat-icon>delete</mat-icon>
+          </a>
+
+          <a
+            mat-icon-button
+            class="botao-arquivar"
+            matTooltip="Arquivar {{ item.titulo }}"
+            (click)="arquivar(item)"
+          >
+            <mat-icon>archive</mat-icon>
+          </a>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
+</main>

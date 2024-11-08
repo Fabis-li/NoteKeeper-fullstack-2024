@@ -1,0 +1,48 @@
+<main class="container my-4">
+  <div
+    *ngIf="nota$ | async as nota"
+    class="row justify-content-center g-3 mt-2"
+  >
+    <div class="col col-lg-8 col-xxl-6">
+      <h1 class="fs-2">Exclusão de Nota</h1>
+
+      <hr />
+
+      <p>Deseja realmente excluir a nota "{{ nota.titulo }}"?</p>
+
+      <div class="row justify-content-end g-2 gap-1 mt-5">
+        <button
+          (click)="excluir()"
+          mat-flat-button
+          class="col-md-3"
+          type="button"
+        >
+          <mat-icon>check</mat-icon>
+          Confirmar
+        </button>
+
+        <button
+          *ngIf="notaArquivada"
+          mat-stroked-button
+          class="col-md-3"
+          type="button"
+          [routerLink]="['/notas', 'listar', 'arquivadas']"
+        >
+          <mat-icon>keyboard_return</mat-icon>
+          Voltar
+        </button>
+
+        <button
+          *ngIf="!notaArquivada"
+          mat-stroked-button
+          class="col-md-3"
+          type="button"
+          [routerLink]="['/notas', 'listar']"
+        >
+          <mat-icon>keyboard_return</mat-icon>
+          Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

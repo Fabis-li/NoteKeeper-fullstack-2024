@@ -1,0 +1,50 @@
+<main class="container my-4">
+  <h1 class="fs-2">Listagem de Categorias</h1>
+
+  <section
+    aria-label="Opções"
+    class="row justify-content-center justify-content-lg-start g-1"
+  >
+    <a
+      mat-flat-button
+      class="col-md-6 col-lg-4 col-xxl-2 fs-6 py-4"
+      [routerLink]="['/categorias', 'cadastrar']"
+    >
+      <mat-icon>bookmark_add</mat-icon>
+      Cadastrar
+    </a>
+  </section>
+
+  <hr />
+
+  <div *ngIf="categorias$ | async as itens" class="row g-3 mt-2">
+    <div *ngFor="let item of itens" class="col-md-6 col-lg-4 col-xxl-3">
+      <mat-card
+        class="card-animado mat-mdc-elevation-specific mat-elevation-z3 h-100"
+      >
+        <mat-card-header>
+          <mat-card-title class="titulo-card">{{ item.titulo }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-footer class="d-flex justify-content-end gap-1 p-3 mt-auto">
+          <a
+            mat-icon-button
+            class="botao-editar"
+            matTooltip="Editar {{ item.titulo }}"
+            [routerLink]="['/categorias', 'editar', item.id]"
+          >
+            <mat-icon>edit</mat-icon>
+          </a>
+          <a
+            mat-icon-button
+            class="botao-excluir"
+            matTooltip="Excluir {{ item.titulo }}"
+            [routerLink]="['/categorias', 'excluir', item.id]"
+          >
+            <mat-icon>delete</mat-icon>
+          </a>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </div>
+</main>

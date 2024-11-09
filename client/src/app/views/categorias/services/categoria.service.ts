@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  CadastroCategoria,
-  CategoriaCriada,
-  CategoriaEditada,
-  CategoriaExcluida,
-  DetalhesCategoria,
-  EdicaoCategoria,
-  ListagemCategoria,
+  InserirCategoriaViewModel,
+  CategoriaInseridaViewModel,
+  CategoriaEditadaViewModel,
+  CategoriaExcluidaViewModel,
+  VisualizarCategoriaViewModel,
+  EdicaoCategoriaViewModel,
+  ListarCategoriaViewModel,
 } from '../models/categoria.models';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -20,32 +20,32 @@ export class CategoriaService {
 
   constructor(private http: HttpClient) {}
 
-  cadastrar(novaCategoria: CadastroCategoria): Observable<CategoriaCriada> {
-    return this.http.post<CategoriaCriada>(this.url, novaCategoria);
+  cadastrar(novaCategoria: InserirCategoriaViewModel): Observable<CategoriaInseridaViewModel> {
+    return this.http.post<CategoriaInseridaViewModel>(this.url, novaCategoria);
   }
 
   editar(
-    id: number,
-    categoriaEditada: EdicaoCategoria
-  ): Observable<CategoriaEditada> {
+    id: string,
+    categoriaEditada: EdicaoCategoriaViewModel
+  ): Observable<CategoriaEditadaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
 
-    return this.http.put<CategoriaEditada>(urlCompleto, categoriaEditada);
+    return this.http.put<CategoriaEditadaViewModel>(urlCompleto, categoriaEditada);
   }
 
-  excluir(id: number): Observable<CategoriaExcluida> {
+  excluir(id: string): Observable<CategoriaExcluidaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
 
-    return this.http.delete<CategoriaExcluida>(urlCompleto);
+    return this.http.delete<CategoriaExcluidaViewModel>(urlCompleto);
   }
 
-  selecionarTodos(): Observable<ListagemCategoria[]> {
-    return this.http.get<ListagemCategoria[]>(this.url);
+  selecionarTodos(): Observable<ListarCategoriaViewModel[]> {
+    return this.http.get<ListarCategoriaViewModel[]>(this.url);
   }
 
-  selecionarPorId(id: number): Observable<DetalhesCategoria> {
+  selecionarPorId(id: string): Observable<VisualizarCategoriaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
 
-    return this.http.get<DetalhesCategoria>(urlCompleto);
+    return this.http.get<VisualizarCategoriaViewModel>(urlCompleto);
   }
 }

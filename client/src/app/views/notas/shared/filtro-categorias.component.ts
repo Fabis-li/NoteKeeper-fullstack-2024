@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { ListagemCategoria } from '../../categorias/models/categoria.models';
+import { ListarCategoriaViewModel } from '../../categorias/models/categoria.models';
 import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
@@ -25,9 +25,9 @@ import { MatChipsModule } from '@angular/material/chips';
   `,
 })
 export class FiltroCategoriasComponent {
-  @Input({ required: true }) categorias: ListagemCategoria[];
+  @Input({ required: true }) categorias: ListarCategoriaViewModel[];
 
-  @Output() filtroAcionado: EventEmitter<number | undefined>;
+  @Output() filtroAcionado: EventEmitter<string | undefined>;
 
   constructor() {
     this.categorias = [];
@@ -35,7 +35,7 @@ export class FiltroCategoriasComponent {
     this.filtroAcionado = new EventEmitter();
   }
 
-  filtrar(categoriaId?: number) {
+  filtrar(categoriaId?: string) {
     this.filtroAcionado.emit(categoriaId);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ListagemCategoria } from '../models/categoria.models';
+import { ListarCategoriaViewModel } from '../models/categoria.models';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -26,7 +26,7 @@ import { Observable } from 'rxjs';
   styleUrl: './listagem-categorias.component.scss',
 })
 export class ListagemCategoriasComponent implements OnInit {
-  categorias$?: Observable<ListagemCategoria[]>;
+  categorias$?: Observable<ListarCategoriaViewModel[]>;
 
   constructor(private categoriaService: CategoriaService) {}
 

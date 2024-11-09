@@ -38,12 +38,8 @@
         <mat-card-header class="d-flex justify-content-between">
           <mat-card-title class="titulo-card">{{ item.titulo }}</mat-card-title>
 
-          <span>{{ item.categoria?.titulo }}</span>
+          <span>{{ item.categoria.titulo }}</span>
         </mat-card-header>
-
-        <mat-card-content class="mt-4">
-          <p>{{ item.conteudo }}</p>
-        </mat-card-content>
 
         <mat-card-footer class="d-flex justify-content-end gap-1 p-3 mt-auto">
           <a

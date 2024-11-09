@@ -6,11 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { finalize, Observable, of, switchMap } from 'rxjs';
-import { ListagemNota } from '../models/nota.models';
+import { ListarNotaViewModel } from '../models/nota.models';
 import { NotaService } from '../services/nota.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { CategoriaService } from '../../categorias/services/categoria.service';
-import { ListagemCategoria } from '../../categorias/models/categoria.models';
+import { ListarCategoriaViewModel } from '../../categorias/models/categoria.models';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 import { FiltroCategoriasComponent } from "../shared/filtro-categorias.component";
 
@@ -33,10 +33,10 @@ import { FiltroCategoriasComponent } from "../shared/filtro-categorias.component
   styleUrl: './listagem-notas.component.scss',
 })
 export class ListagemNotasComponent implements OnInit {
-  notas$?: Observable<ListagemNota[]>;
-  categorias$?: Observable<ListagemCategoria[]>;
+  notas$?: Observable<ListarNotaViewModel[]>;
+  categorias$?: Observable<ListarCategoriaViewModel[]>;
 
-  notasEmCache: ListagemNota[];
+  notasEmCache: ListarNotaViewModel[];
 
   constructor(
     private notaService: NotaService,
@@ -56,7 +56,7 @@ export class ListagemNotasComponent implements OnInit {
     });
   }
 
-  filtrar(categoriaId?: number) {
+  filtrar(categoriaId?: string) {
     const notasFiltradas = this.obterNotasFiltradas(
       this.notasEmCache,
       categoriaId
@@ -65,10 +65,10 @@ export class ListagemNotasComponent implements OnInit {
     this.notas$ = of(notasFiltradas);
   }
 
-  arquivar(nota: ListagemNota) {
+  arquivar(nota: ListarNotaViewModel) {
     nota.arquivada = true;
 
-    this.notas$ = this.notaService.editar(nota.id, nota).pipe(
+    this.notas$ = this.notaService.alterarStatus(nota.id).pipe(
       finalize(() =>
         this.notificacao.sucesso('A nota foi arquivada com sucesso!')
       ),
@@ -76,9 +76,9 @@ export class ListagemNotasComponent implements OnInit {
     );
   }
 
-  private obterNotasFiltradas(notas: ListagemNota[], categoriaId?: number) {
+  private obterNotasFiltradas(notas: ListarNotaViewModel[], categoriaId?: string) {
     if (categoriaId) {
-      return notas.filter((n) => n.categoriaId == categoriaId);
+      return notas.filter((n) => n.categoria.id == categoriaId);
     }
 
     return notas;

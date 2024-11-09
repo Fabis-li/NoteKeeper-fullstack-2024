@@ -1,29 +1,29 @@
-export interface CadastroCategoria {
+export interface InserirCategoriaViewModel {
   titulo: string;
 }
 
-export interface CategoriaCriada {
-  id: number;
+export interface CategoriaInseridaViewModel {
+  id: string;
   titulo: string;
 }
 
-export interface EdicaoCategoria {
+export interface EdicaoCategoriaViewModel {
   titulo: string;
 }
 
-export interface CategoriaEditada {
-  id: number;
+export interface CategoriaEditadaViewModel {
+  id: string;
   titulo: string;
 }
 
-export interface DetalhesCategoria {
-  id: number;
+export interface VisualizarCategoriaViewModel {
+  id: string;
   titulo: string;
 }
 
-export interface ListagemCategoria {
-  id: number;
+export interface ListarCategoriaViewModel {
+  id: string;
   titulo: string;
 }
 
-export interface CategoriaExcluida {}
+export interface CategoriaExcluidaViewModel {}

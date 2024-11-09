@@ -6,7 +6,7 @@ import {
   AsyncPipe,
 } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,9 +15,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ListagemCategoria } from '../../categorias/models/categoria.models';
+import { ListarCategoriaViewModel } from '../../categorias/models/categoria.models';
 import { CategoriaService } from '../../categorias/services/categoria.service';
-import { CadastroNota, DetalhesNota } from '../models/nota.models';
+import { InserirNotaViewModel, VisualizarNotaViewModel } from '../models/nota.models';
 import { NotaService } from '../services/nota.service';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 
@@ -42,10 +42,10 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
   templateUrl: './edicao-nota.component.html',
 })
 export class EdicaoNotaComponent implements OnInit {
-  id?: number;
+  id?: string;
   notaForm: FormGroup;
 
-  categorias$?: Observable<ListagemCategoria[]>;
+  categorias$?: Observable<ListarCategoriaViewModel[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,9 +55,10 @@ export class EdicaoNotaComponent implements OnInit {
     private notificacao: NotificacaoService
   ) {
     this.notaForm = new FormGroup({
-      titulo: new FormControl<string>(''),
+      titulo: new FormControl<string>('', [Validators.required]),
       conteudo: new FormControl<string>(''),
-      categoriaId: new FormControl<number>(0),
+      arquivada: new FormControl<boolean>(false),
+      categoriaId: new FormControl<string | undefined>(undefined,[Validators.required]),
     });
   }
 
@@ -94,7 +95,7 @@ export class EdicaoNotaComponent implements OnInit {
       return;
     }
 
-    const notaEditada: CadastroNota = this.notaForm.value;
+    const notaEditada: InserirNotaViewModel = this.notaForm.value;
 
     this.notaService.editar(this.id, notaEditada).subscribe((res) => {
       this.notificacao.sucesso(
@@ -113,14 +114,17 @@ export class EdicaoNotaComponent implements OnInit {
     return controle.pristine;
   }
 
-  mapearTituloDaCategoria(id: number, categorias: ListagemCategoria[]): string {
+  mapearTituloDaCategoria(id: string, categorias: ListarCategoriaViewModel[]): string {
     const categoria = categorias.find((categoria) => categoria.id === id);
 
     return categoria ? categoria.titulo : 'Categoria não encontrada';
   }
 
-  private carregarFormulario(registro: DetalhesNota) {
-    this.notaForm.patchValue(registro);
+  private carregarFormulario(registro: VisualizarNotaViewModel) {
+    this.notaForm.patchValue({
+      ...registro,
+      categoriaId: registro.categoria.id
+    });
 
     const campos = Object.keys(this.notaForm.controls);
 

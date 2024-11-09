@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
-import { CadastroCategoria } from '../models/categoria.models';
+import { InserirCategoriaViewModel } from '../models/categoria.models';
 import { CategoriaService } from '../services/categoria.service';
 import { NgIf } from '@angular/common';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
@@ -52,7 +52,7 @@ export class CadastroCategoriaComponent {
   cadastrar() {
     if (this.categoriaForm.invalid) return;
 
-    const novaCategoria: CadastroCategoria = this.categoriaForm.value;
+    const novaCategoria: InserirCategoriaViewModel = this.categoriaForm.value;
 
     this.categoriaService.cadastrar(novaCategoria).subscribe((res) => {
       this.notificacao.sucesso(

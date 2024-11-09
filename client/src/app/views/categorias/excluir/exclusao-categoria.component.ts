@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { DetalhesCategoria } from '../models/categoria.models';
+import { VisualizarCategoriaViewModel } from '../models/categoria.models';
 import { CategoriaService } from '../services/categoria.service';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 
@@ -15,8 +15,8 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
   templateUrl: './exclusao-categoria.component.html'
 })
 export class ExclusaoCategoriaComponent implements OnInit {
-  id?: number;
-  categoria$?: Observable<DetalhesCategoria>;
+  id?: string;
+  categoria$?: Observable<VisualizarCategoriaViewModel>;
 
   constructor(
     private route: ActivatedRoute,

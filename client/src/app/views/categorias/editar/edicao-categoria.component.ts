@@ -11,9 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
-  CadastroCategoria,
-  DetalhesCategoria,
-  EdicaoCategoria,
+  InserirCategoriaViewModel,
+  VisualizarCategoriaViewModel,
+  EdicaoCategoriaViewModel,
 } from '../models/categoria.models';
 import { CategoriaService } from '../services/categoria.service';
 import { NgIf } from '@angular/common';
@@ -34,7 +34,7 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
   templateUrl: './edicao-categoria.component.html',
 })
 export class EdicaoCategoriaComponent implements OnInit {
-  id?: number;
+  id?: string;
   categoriaForm: FormGroup;
 
   constructor(
@@ -78,7 +78,7 @@ export class EdicaoCategoriaComponent implements OnInit {
       return;
     }
 
-    const categoriaEditada: EdicaoCategoria = this.categoriaForm.value;
+    const categoriaEditada: EdicaoCategoriaViewModel = this.categoriaForm.value;
 
     this.categoriaService.editar(this.id, categoriaEditada).subscribe((res) => {
       this.notificacao.sucesso(
@@ -89,7 +89,7 @@ export class EdicaoCategoriaComponent implements OnInit {
     });
   }
 
-  private carregarFormulario(registro: DetalhesCategoria) {
+  private carregarFormulario(registro: VisualizarCategoriaViewModel) {
     this.categoriaForm.patchValue(registro);
   }
 }

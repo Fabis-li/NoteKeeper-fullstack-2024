@@ -1,56 +1,55 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  CadastroNota,
-  DetalhesNota,
-  EdicaoNota,
-  ListagemNota,
-  NotaCriada,
-  NotaEditada,
-  NotaExcluida,
-} from '../models/nota.models';
+import { EditarNotaViewModel, InserirNotaViewModel, ListarNotaViewModel, NotaEditadaViewModel, NotaExcluidaViewModel, NotaInseridaViewModel, VisualizarNotaViewModel } from '../models/nota.models';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotaService {
+
   private readonly url = `${environment.API_URL}/notas`;
 
   constructor(private http: HttpClient) {}
 
-  cadastrar(novaNota: CadastroNota): Observable<NotaCriada> {
-    return this.http.post<NotaCriada>(this.url, novaNota);
+  cadastrar(novaNota: InserirNotaViewModel): Observable<NotaInseridaViewModel> {
+    return this.http.post<NotaInseridaViewModel>(this.url, novaNota);
   }
 
-  editar(id: number, notaEditada: EdicaoNota): Observable<NotaEditada> {
+  editar(id: string, notaEditada: EditarNotaViewModel): Observable<NotaEditadaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
 
-    return this.http.put<NotaEditada>(urlCompleto, notaEditada);
+    return this.http.put<NotaEditadaViewModel>(urlCompleto, notaEditada);
   }
 
-  excluir(id: number): Observable<NotaExcluida> {
+  excluir(id: string): Observable<NotaExcluidaViewModel> {
     const urlCompleto = `${this.url}/${id}`;
 
-    return this.http.delete<NotaExcluida>(urlCompleto);
+    return this.http.delete<NotaExcluidaViewModel>(urlCompleto);
   }
 
-  selecionarTodos(): Observable<ListagemNota[]> {
-    const urlCompleto = `${this.url}?arquivada=false&_expand=categoria`;
+  selecionarTodos(): Observable<ListarNotaViewModel[]> {
+    const urlCompleto = `${this.url}?arquivadas=false`;
 
-    return this.http.get<ListagemNota[]>(urlCompleto);
+    return this.http.get<ListarNotaViewModel[]>(urlCompleto);
   }
 
-  selecionarArquivadas(): Observable<ListagemNota[]> {
-    const urlCompleto = `${this.url}?arquivada=true&_expand=categoria`;
+  selecionarArquivadas(): Observable<ListarNotaViewModel[]> {
+    const urlCompleto = `${this.url}?arquivadas=true`;
 
-    return this.http.get<ListagemNota[]>(urlCompleto);
+    return this.http.get<ListarNotaViewModel[]>(urlCompleto);
   }
 
-  selecionarPorId(id: number): Observable<DetalhesNota> {
-    const urlCompleto = `${this.url}/${id}?_expand=categoria`;
+  selecionarPorId(id: string): Observable<VisualizarNotaViewModel> {
+    const urlCompleto = `${this.url}/${id}`;
 
-    return this.http.get<DetalhesNota>(urlCompleto);
+    return this.http.get<VisualizarNotaViewModel>(urlCompleto);
+  }
+
+  alterarStatus(id: string): Observable<VisualizarNotaViewModel> {
+    const urlCompleto = `${this.url}/${id}/alterar-status`;
+
+    return this.http.put<VisualizarNotaViewModel>(urlCompleto,{});
   }
 }

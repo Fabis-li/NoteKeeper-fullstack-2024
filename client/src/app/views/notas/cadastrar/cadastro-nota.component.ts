@@ -19,11 +19,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ListagemCategoria } from '../../categorias/models/categoria.models';
+import { ListarCategoriaViewModel } from '../../categorias/models/categoria.models';
 import { CategoriaService } from '../../categorias/services/categoria.service';
 import { MatCardModule } from '@angular/material/card';
 import { NotaService } from '../services/nota.service';
-import { CadastroNota } from '../models/nota.models';
+import { InserirNotaViewModel } from '../models/nota.models';
 import { NotificacaoService } from '../../../core/notificacao/notificacao.service';
 
 @Component({
@@ -49,7 +49,7 @@ import { NotificacaoService } from '../../../core/notificacao/notificacao.servic
 export class CadastroNotaComponent implements OnInit {
   notaForm: FormGroup;
 
-  categorias$?: Observable<ListagemCategoria[]>;
+  categorias$?: Observable<ListarCategoriaViewModel[]>;
 
   constructor(
     private router: Router,
@@ -60,6 +60,7 @@ export class CadastroNotaComponent implements OnInit {
     this.notaForm = new FormGroup({
       titulo: new FormControl<string>('', [Validators.required]),
       conteudo: new FormControl<string>(''),
+      arquivada: new FormControl<boolean>(false),
       categoriaId: new FormControl<number | undefined>(undefined, [
         Validators.required,
       ]),
@@ -83,11 +84,11 @@ export class CadastroNotaComponent implements OnInit {
   }
 
   cadastrar(): void {
-    const novaNota: CadastroNota = this.notaForm.value;
+    const novaNota: InserirNotaViewModel = this.notaForm.value;
 
     this.notaService.cadastrar(novaNota).subscribe((res) => {
       this.notificacao.sucesso(
-        `O registro ID [${res.id}] foi cadastrado com sucesso!`
+        `O registro ID [${res.titulo}] foi cadastrado com sucesso!`
       );
 
       this.router.navigate(['/notas']);
@@ -102,7 +103,7 @@ export class CadastroNotaComponent implements OnInit {
     return controle.pristine;
   }
 
-  mapearTituloDaCategoria(id: number, categorias: ListagemCategoria[]): string {
+  mapearTituloDaCategoria(id: string, categorias: ListarCategoriaViewModel[]): string {
     const categoria = categorias.find((categoria) => categoria.id === id);
 
     return categoria ? categoria.titulo : 'Categoria não encontrada';

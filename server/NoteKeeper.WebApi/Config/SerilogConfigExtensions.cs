@@ -4,7 +4,7 @@ namespace NoteKeeper.WebApi.Config;
 
 public static class SerilogConfigExtensions
 {
-    public static void ConfigureSerilog(this IServiceCollection services, ILoggingBuilder logging)
+    public static void ConfigureSerilog(this IServiceCollection services, ILoggingBuilder logging,IConfiguration config)
     {
         //configuração do serilog
         Log.Logger = new LoggerConfiguration()
@@ -16,7 +16,7 @@ public static class SerilogConfigExtensions
             .WriteTo.NewRelicLogs(
                 endpointUrl: "https://log-api.newrelic.com/log/v1",
                 applicationName: "note-keeper-api",
-                licenseKey: "335d8aedf96a01d0c30e957b9fd733c4FFFFNRAL"
+                licenseKey: config["NEW_RELIC_LICENSE_KEY"]
             )
             .CreateLogger();
 

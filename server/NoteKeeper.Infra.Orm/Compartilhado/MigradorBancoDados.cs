@@ -8,14 +8,7 @@ namespace NoteKeeper.Infra.Orm.Compartilhado
         {
            var qtdMigracoesPendets =  dbContext.Database.GetPendingMigrations().Count();
 
-            if(qtdMigracoesPendets == 0)
-            {
-                Console.WriteLine("Nenhuma migração pendente, continuando...");
-
-                return false;
-            }
-
-            Console.WriteLine("Aplicando migrações pendentes, isso pode demorar alguns segundos...");
+           if(qtdMigracoesPendets == 0) return false;
 
             dbContext.Database.Migrate();
 

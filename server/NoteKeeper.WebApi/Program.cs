@@ -69,7 +69,7 @@ namespace NoteKeeper.WebApi
 
             builder.Services.AddSwaggerGen();
 
-            builder.Services.ConfigureSerilog(builder.Logging);
+            builder.Services.ConfigureSerilog(builder.Logging, builder.Configuration);
 
             //Middleware de execução da API
             var app = builder.Build();

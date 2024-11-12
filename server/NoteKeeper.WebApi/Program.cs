@@ -20,13 +20,12 @@ namespace NoteKeeper.WebApi
     {
         public static void Main(string[] args)
         {
-
             const string politicaCors = "_minhaPoliticaCors";
 
             //Configuração de Injeção de Dependência
             var builder = WebApplication.CreateBuilder(args);
 
-            var connectionString = builder.Configuration.GetConnectionString("sqlServer");
+            var connectionString = builder.Configuration["SQL_SERVER_CONNECTION_STRING"];
 
             builder.Services.AddDbContext<IContextoPersistencia, NoteKeeperDbContext>(optionsBuilder =>
             {

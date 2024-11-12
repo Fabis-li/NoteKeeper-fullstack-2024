@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>7fbe3c22-9f6c-46fc-bb3a-7b71d135465a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,9 +27,6 @@
 
   <ItemGroup>
     <Content Update="appsettings.Production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="appsettings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

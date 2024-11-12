@@ -22,10 +22,7 @@ namespace NoteKeeper.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var reusltado = await servicoCategoria.SelecionarTodosAsync();
-
-            if (reusltado.IsFailed)
-                return StatusCode(500);
+            var reusltado = await servicoCategoria.SelecionarTodosAsync();            
 
             var viewModel = mapeador.Map<ListarCategoriaViewModel[]>(reusltado.Value);
 
@@ -36,9 +33,6 @@ namespace NoteKeeper.WebApi.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             var resultado = await servicoCategoria.SelecionarPorIdAsync(id);
-
-            if (resultado.IsFailed)
-                return NotFound(resultado.Errors);
 
             var viewModel = mapeador.Map<VisualizarCategoriaViewModel>(resultado.Value);
 
@@ -54,7 +48,7 @@ namespace NoteKeeper.WebApi.Controllers
 
             if (resultado.IsFailed)
 
-                return BadRequest(resultado.Errors);
+                return BadRequest(resultado.Errors.Select(err => err.Message));
 
             return Ok(categoriaVm);
         }
@@ -62,17 +56,14 @@ namespace NoteKeeper.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Editar(Guid id, EditarCategoriaViewModel categoriaVm)
         {
-            var categoriaSelecionada = await servicoCategoria.SelecionarPorIdAsync(id);
-
-            if (categoriaSelecionada.IsFailed)
-                return NotFound(categoriaSelecionada.Errors);
+            var categoriaSelecionada = await servicoCategoria.SelecionarPorIdAsync(id);            
 
             var categoria = mapeador.Map(categoriaVm, categoriaSelecionada.Value);
 
             var resultado = await servicoCategoria.EditarAsync(categoria);
 
             if (resultado.IsFailed)
-                return BadRequest(resultado.Errors);
+                return BadRequest(resultado.Errors.Select(err => err.Message));
 
             return Ok(categoriaVm);
         }

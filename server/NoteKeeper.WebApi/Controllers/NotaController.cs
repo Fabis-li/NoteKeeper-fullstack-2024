@@ -19,10 +19,8 @@ namespace NoteKeeper.WebApi.Controllers
             if (arquivadas.HasValue)
                 notasResult = await notaService.Filtrar(n => n.Arquivada == arquivadas);
             else
-                notasResult = await notaService.SelecionarTodosAsync();            
-
-            if (notasResult.IsFailed)
-                return StatusCode(500);
+                notasResult = await notaService.SelecionarTodosAsync();
+            
             var viewNodel = mapeador.Map<ListarNotaViewModel[]>(notasResult.Value);
 
             return Ok(viewNodel);
@@ -31,10 +29,7 @@ namespace NoteKeeper.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var notaResult = await notaService.SelecionarPorIdAsync(id);
-
-            if(notaResult.IsFailed)
-                return StatusCode(500);
+            var notaResult = await notaService.SelecionarPorIdAsync(id);           
 
             if (notaResult.IsSuccess && notaResult.Value is null)
                 return NotFound(notaResult.Errors);
@@ -52,7 +47,7 @@ namespace NoteKeeper.WebApi.Controllers
             var resultado = await notaService.InserirAsync(nota);
 
             if (resultado.IsFailed)
-                return BadRequest(resultado.Value);
+                return BadRequest(resultado.Errors.Select(err => err.Message));
 
             return Ok(notaVm);
         }
@@ -73,7 +68,8 @@ namespace NoteKeeper.WebApi.Controllers
             var resultado = await notaService.EditarAsync(notaEditada);
 
            if(resultado.IsFailed)
-                return BadRequest(resultado.Errors);
+                return BadRequest(resultado.Errors.Select(err => err.Message));
+            
 
             return Ok(notaVm);
         }

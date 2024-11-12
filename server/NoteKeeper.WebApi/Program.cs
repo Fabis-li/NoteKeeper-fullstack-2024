@@ -74,7 +74,7 @@ namespace NoteKeeper.WebApi
 
             //Middleware de execução da API
             var app = builder.Build();
-            
+
             app.UseGlobalExceptionHandler();
 
             app.UseSwagger();
@@ -83,8 +83,8 @@ namespace NoteKeeper.WebApi
             //Migrações de Banco de Dados
             var migracaoConcluida = app.AutoMigrateDataBase();
 
-            if(migracaoConcluida) Log.Information("Migração do banco de dados concluída com sucesso");
-            else Log.Error("Nenhuma migração pendente");            
+            if (migracaoConcluida) Log.Information("Migração do banco de dados concluída com sucesso");
+            else Log.Error("Nenhuma migração pendente");
 
             app.UseHttpsRedirection();
 
@@ -94,7 +94,18 @@ namespace NoteKeeper.WebApi
 
             app.MapControllers();
 
-            app.Run();
+
+            try
+            {
+
+                app.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal("Ocorreu um erro que ocasionou no fechamento da aplicação", ex);
+
+                return;
+            }
         }
     }
 }

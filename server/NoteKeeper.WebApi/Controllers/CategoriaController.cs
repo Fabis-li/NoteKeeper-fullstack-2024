@@ -3,21 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using NoteKeeper.Aplicacao.ModuloCategoria;
 using NoteKeeper.Dominio.ModuloCategoria;
 using NoteKeeper.WebApi.ViewModels;
+using Serilog;
 
 namespace NoteKeeper.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriaController : ControllerBase
+    public class CategoriaController(ServicoCategoria servicoCategoria, IMapper mapeador) : ControllerBase
     {
-        private readonly ServicoCategoria servicoCategoria;
-        private readonly IMapper mapeador;
-
-        public CategoriaController(ServicoCategoria servicoCategoria, IMapper mapeador)
-        {
-            this.servicoCategoria = servicoCategoria;
-            this.mapeador = mapeador;
-        }
+        private readonly ServicoCategoria servicoCategoria = servicoCategoria;
+        private readonly IMapper mapeador = mapeador;
 
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -25,6 +20,8 @@ namespace NoteKeeper.WebApi.Controllers
             var reusltado = await servicoCategoria.SelecionarTodosAsync();            
 
             var viewModel = mapeador.Map<ListarCategoriaViewModel[]>(reusltado.Value);
+
+            Log.Information("Foram selecionados {QuantidadeRegistros} registros", viewModel.Count());
 
             return Ok(reusltado.Value);
         }

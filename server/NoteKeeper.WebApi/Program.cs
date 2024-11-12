@@ -8,9 +8,11 @@ using NoteKeeper.Dominio.ModuloNota;
 using NoteKeeper.Infra.Orm.Compartilhado;
 using NoteKeeper.Infra.Orm.ModuloCategoria;
 using NoteKeeper.Infra.Orm.ModuloNota;
+using NoteKeeper.WebApi.Config;
 using NoteKeeper.WebApi.Config.Mapping;
 using NoteKeeper.WebApi.Config.Mapping.Actions;
 using NoteKeeper.WebApi.Filters;
+using Serilog;
 
 namespace NoteKeeper.WebApi
 {
@@ -68,24 +70,21 @@ namespace NoteKeeper.WebApi
 
             builder.Services.AddSwaggerGen();
 
+            builder.Services.ConfigureSerilog(builder.Logging);
 
             //Middleware de execução da API
-            var app = builder.Build();            
+            var app = builder.Build();
             
+            app.UseGlobalExceptionHandler();
+
             app.UseSwagger();
             app.UseSwaggerUI();
 
             //Migrações de Banco de Dados
-            {
-                 using var scope = app.Services.CreateScope();
+            var migracaoConcluida = app.AutoMigrateDataBase();
 
-                 var dbCotnext = scope.ServiceProvider.GetRequiredService<IContextoPersistencia>();
-
-                if(dbCotnext is NoteKeeperDbContext dbContext)
-                {
-                    MigradorBancoDados.AtualizarBancoDados(dbContext);
-                }
-            }
+            if(migracaoConcluida) Log.Information("Migração do banco de dados concluída com sucesso");
+            else Log.Error("Nenhuma migração pendente");            
 
             app.UseHttpsRedirection();
 

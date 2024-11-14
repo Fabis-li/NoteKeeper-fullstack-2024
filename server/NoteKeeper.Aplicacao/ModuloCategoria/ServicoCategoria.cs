@@ -63,8 +63,7 @@ public class ServicoCategoria
     }
 
     public async Task<Result<List<Categoria>>> SelecionarTodosAsync()
-    {
-        throw new Exception("Houve um problmea ao conectar com o banco de dados");
+    {       
 
         var categorias = await _repositorioCategoria.SelecionarTodosAsync();
 

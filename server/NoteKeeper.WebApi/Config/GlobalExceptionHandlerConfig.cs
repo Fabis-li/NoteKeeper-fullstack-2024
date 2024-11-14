@@ -4,12 +4,10 @@ using System.Text.Json;
 
 namespace NoteKeeper.WebApi.Config;
 
-public static class ErrorHandlerExtensions
+public static class GlobalExceptionHandlerConfig
 {
     public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)
     {
-
-
         return app.UseExceptionHandler(builder =>
         {
             builder.Run(async httpContext =>
@@ -24,7 +22,7 @@ public static class ErrorHandlerExtensions
                 var objeto = new
                 {
                     Sucesso = false,
-                    Erros = new string[] { "Erro inerno do servidor " }
+                    Erros = new string[] { "Erro interno do servidor " }
                 };
 
                 var respostaJson = JsonSerializer.Serialize(objeto);

@@ -31,9 +31,7 @@ namespace NoteKeeper.WebApi
 
             builder.Services.ConfigureCors(politicaCors);
 
-            builder.Services.AddEndpointsApiExplorer();
-
-            builder.Services.AddSwaggerGen();            
+            builder.Services.ConfigureSwaggerAuthorization();           
 
             //Middleware de execução da API
             var app = builder.Build();

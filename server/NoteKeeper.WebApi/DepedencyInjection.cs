@@ -11,6 +11,7 @@ using NoteKeeper.WebApi.Config.Mapping.Actions;
 using NoteKeeper.WebApi.Config.Mapping;
 using Serilog;
 using NoteKeeper.WebApi.Filters;
+using Microsoft.OpenApi.Models;
 
 namespace NoteKeeper.WebApi;
 
@@ -89,6 +90,41 @@ public static class DepedencyInjection
                     .AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
+            });
+        });
+    }
+
+    public static void ConfigureSwaggerAuthorization(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "note-keeper-api", Version = "v1" });
+
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+               In = ParameterLocation.Header,
+               Name = "Authorization",
+               Description = "Por favor informe o otken no padrãp {Bearer token}",
+               Type = SecuritySchemeType.ApiKey,
+               Scheme = "Bearer",
+               BearerFormat = "JWT"
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
             });
         });
     }

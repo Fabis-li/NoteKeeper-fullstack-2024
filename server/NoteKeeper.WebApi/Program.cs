@@ -25,6 +25,8 @@ namespace NoteKeeper.WebApi
 
             builder.Services.ConfigureIdentity();
 
+            builder.Services.ConfigureJwt(builder.Configuration);
+
             builder.Services.ConfigureControllerWithFilters();
 
             builder.Services.ConfigureCors(politicaCors);

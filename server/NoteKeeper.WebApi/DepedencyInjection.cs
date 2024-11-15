@@ -46,6 +46,7 @@ public static class DepedencyInjection
         {
             config.AddProfile<CategoriaProfile>();
             config.AddProfile<NotaProfile>();
+            config.AddProfile<UsuarioProfile>();
         });
     }
    

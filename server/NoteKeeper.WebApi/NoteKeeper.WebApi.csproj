@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
       <PrivateAssets>all</PrivateAssets>
@@ -29,7 +30,7 @@
     <ProjectReference Include="..\NoteKeeper.Aplicacao\NoteKeeper.Aplicacao.csproj" />
     <ProjectReference Include="..\NoteKeeper.Dominio\NoteKeeper.Dominio.csproj" />
     <ProjectReference Include="..\NoteKeeper.Infra.Orm\NoteKeeper.Infra.Orm.csproj" />
-  </ItemGroup>
+  </ItemGroup>  	
 
   <ItemGroup>
     <Content Update="appsettings.Production.json">

@@ -1,4 +1,5 @@
 using NoteKeeper.WebApi.Config;
+using NoteKeeper.WebApi.Identity;
 using Serilog;
 
 namespace NoteKeeper.WebApi
@@ -21,6 +22,8 @@ namespace NoteKeeper.WebApi
             builder.Services.ConfigureAutoMapper();
 
             builder.Services.ConfigureSerilog(builder.Logging, builder.Configuration);
+
+            builder.Services.ConfigureIdentity();
 
             builder.Services.ConfigureControllerWithFilters();
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoteKeeper.Infra.Orm.Compartilhado;
 
@@ -11,9 +12,11 @@ using NoteKeeper.Infra.Orm.Compartilhado;
 namespace NoteKeeper.Infra.Orm.Migrations
 {
     [DbContext(typeof(NoteKeeperDbContext))]
-    partial class NoteKeeperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241115005918_Autenticacao")]
+    partial class Autenticacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
